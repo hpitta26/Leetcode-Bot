@@ -13,14 +13,13 @@ A bot that tracks LeetCode problem submissions for competition participants and 
 
 ```
 leetcode-bot/
-├── config/              # Configuration files
-│   └── config.yaml      # Competition settings, users, problems
 ├── src/                 # Source code
 │   ├── scraper/         # Web scraping logic
 │   ├── database/        # Database operations
 │   └── utils/           # Utilities (config, logging)
-├── data/                # SQLite database (created at runtime)
 ├── logs/                # Application logs
+├── config.yaml          # Competition settings, users, problems
+├── db.sqlite            # SQLite database (created at runtime)
 ├── main.py              # Entry point
 └── requirements.txt     # Python dependencies
 ```
@@ -43,7 +42,7 @@ playwright install chromium
 
 ### 2. Configure Competition
 
-Edit `config/config.yaml`:
+Edit `config.yaml`:
 - Add participant usernames
 - Add problems to track (with slugs and points)
 - Set competition dates
@@ -69,12 +68,12 @@ crontab -e
 ## Output
 
 The bot generates:
-- `data/competition.db` - SQLite database with all data
+- `db.sqlite` - SQLite database with all data
 - `logs/bot.log` - Application logs
 
 ## Configuration
 
-See `config/config.yaml` for all available options.
+See `config.yaml` for all available options.
 
 ## Development
 

@@ -8,19 +8,14 @@ from pathlib import Path
 class DatabaseManager:
     """Manages SQLite database operations"""
     
-    def __init__(self, db_path: str):
+    def __init__(self, db_path: str = "db.sqlite"):
         """
         Initialize database manager
         
         Args:
-            db_path: Path to SQLite database file
+            db_path: Path to SQLite database file (default: db.sqlite)
         """
         self.db_path = db_path
-        self._ensure_db_directory()
-    
-    def _ensure_db_directory(self):
-        """Ensure database directory exists"""
-        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
     
     def init_database(self):
         """Create database tables if they don't exist"""

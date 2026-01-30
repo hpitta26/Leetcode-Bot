@@ -8,9 +8,8 @@ env/
 venv/
 ENV/
 
-# Data
-data/*.db
-data/*.sqlite
+# Database
+db.sqlite
 
 # Logs
 logs/*.log
