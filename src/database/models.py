@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Optional, ClassVar
 
 
 @dataclass
@@ -12,6 +12,15 @@ class User:
     total_score: int = 0
     problems_solved: int = 0
     last_updated: Optional[datetime] = None
+    
+    SCHEMA: ClassVar[str] = '''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            total_score INTEGER DEFAULT 0,
+            problems_solved INTEGER DEFAULT 0,
+            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    '''
 
 
 @dataclass
@@ -21,6 +30,15 @@ class Problem:
     title: str
     difficulty: str
     points: int
+    
+    SCHEMA: ClassVar[str] = '''
+        CREATE TABLE IF NOT EXISTS problems (
+            slug TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            difficulty TEXT NOT NULL,
+            points INTEGER NOT NULL
+        )
+    '''
 
 
 @dataclass
@@ -30,4 +48,17 @@ class Submission:
     problem_slug: str
     solved: bool
     solved_at: Optional[datetime] = None
+    
+    SCHEMA: ClassVar[str] = '''
+        CREATE TABLE IF NOT EXISTS submissions (
+            username TEXT NOT NULL,
+            problem_slug TEXT NOT NULL,
+            solved BOOLEAN NOT NULL,
+            solved_at TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (username, problem_slug),
+            FOREIGN KEY (problem_slug) REFERENCES problems(slug),
+            FOREIGN KEY (username) REFERENCES users(username)
+        )
+    '''
 

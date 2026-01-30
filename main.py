@@ -11,6 +11,7 @@ import asyncio
 from pathlib import Path
 from src.utils.config_loader import load_config
 from src.utils.logger import setup_logger
+from src.database.db_manager import DatabaseManager
 
 
 async def main():
@@ -29,8 +30,9 @@ async def main():
         
         # 2. Initialize database
         logger.start("Initializing database...")
-        # TODO: Initialize database
-        logger.success("Database initialized")
+        db = DatabaseManager()
+        db.init_problems(config['problems'])
+        logger.success(f"Database initialized with {len(config['problems'])} problems")
         
         # 3. Start scraper
         logger.start("Starting scraper...")
@@ -39,15 +41,20 @@ async def main():
         
         # 4. Scrape all users
         logger.start("Scraping LeetCode data...")
-        # TODO: Scrape data
-        logger.success("Data scraped successfully")
+        # TODO: Scrape data for each user in config['usernames']
+        logger.success(f"Data scraped for {len(config['usernames'])} users")
         
         # 5. Save to database
         logger.start("Saving to database...")
-        # TODO: Save data
+        # TODO: Save scraped data
         logger.success("Data saved successfully")
         
-        logger.complete("Bot completed successfully!")
+        # 6. Display leaderboard summary
+        leaderboard = db.get_leaderboard_data()
+        logger.complete(f"Bot completed! {len(leaderboard)} users tracked")
+        
+        # Close database connection
+        db.close()
         
     except Exception as e:
         logger.error_msg(f"Bot failed: {str(e)}")
