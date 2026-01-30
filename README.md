@@ -44,12 +44,13 @@ crontab -e
 0 8 * * * cd /path/to/leetcode-bot && /path/to/venv/bin/python main.py >> logs/cron.log 2>&1
 ```
 
-## Utility Scripts
-
-Similar to npm scripts, you can use `make` commands to manage the bot:
+## Available Commands
 
 ```bash
-make run          # Run the LeetCode bot
+make set-comp     # Set up new competition from config
+make run          # Run the LeetCode bot (with safety checks)
+make revert-run   # Revert run (clears submissions, allows re-run)
+make comp-status  # Show current competition status
 make leaderboard  # View current leaderboard
 make submissions  # View all submissions
 make info         # Show database statistics

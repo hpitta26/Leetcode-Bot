@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """View all submissions in the database"""
 
 import sys
@@ -12,26 +11,34 @@ def main():
     logger = setup_logger()
     
     db = DatabaseManager()
-    submissions = db.get_all_submissions()
+    submissions = db.get_all_submissions(all_competitions=True)
     
     if not submissions:
         logger.info("No submissions in database yet")
         db.close()
         return
     
-    logger.info("All Submissions:")
+    logger.info("All Submissions (All Competitions):")
     logger.blank()
     
+    current_comp = None
     current_user = None
     for sub in submissions:
-        if sub['username'] != current_user:
-            if current_user is not None:
+        # Show competition header
+        if sub['competition_id'] != current_comp:
+            if current_comp is not None:
                 logger.blank()
+            current_comp = sub['competition_id']
+            logger.info(f"Competition: {sub['competition_name']}")
+            current_user = None  # Reset user when competition changes
+        
+        # Show user header
+        if sub['username'] != current_user:
             current_user = sub['username']
-            logger.info(f"{current_user}:")
+            logger.blank(f"  {current_user}:")
         
         status = "✓" if sub['solved'] else "✗"
-        logger.blank(f"  {status} {sub['problem_title']} ({sub['points']} points)")
+        logger.blank(f"    {status} {sub['problem_title']} ({sub['points']} points)")
     
     logger.blank()
     db.close()

@@ -31,8 +31,27 @@ async def main():
         # 2. Initialize database
         logger.start("Initializing database...")
         db = DatabaseManager()
-        db.init_problems(config['problems'])
-        logger.success(f"Database initialized with {len(config['problems'])} problems")
+        
+        # 3. Check competition status
+        logger.start("Checking competition status...")
+        comp = db.get_current_competition()
+        
+        if not comp:
+            logger.error_msg("No competition found!")
+            logger.blank()
+            logger.info("Run 'make set-comp' to create a competition first")
+            db.close()
+            return
+        
+        if comp['has_run']:
+            logger.error_msg(f"Competition '{comp['name']}' has already been run!")
+            logger.blank()
+            logger.info("To re-run, use 'make revert-run' first")
+            logger.warning("This is a safety check to prevent accidental data overwrites")
+            db.close()
+            return
+        
+        logger.success(f"Competition '{comp['name']}' ready to run")
         
         # 3. Start scraper
         logger.start("Starting scraper...")
@@ -86,6 +105,7 @@ async def main():
                     username=username,
                     problem_slug=problem_slug,
                     solved=submission_data['solved'],
+                    competition_id=comp['id'],
                     solved_at=None  # TODO: Get actual solve time if available
                 )
             
@@ -93,7 +113,12 @@ async def main():
         
         logger.success("Data saved successfully")
         
-        # 6. Display leaderboard summary
+        # 6. Mark competition as run
+        logger.start("Marking competition as complete...")
+        db.mark_competition_run(comp['id'])
+        logger.success("Competition marked as complete")
+        
+        # 7. Display leaderboard summary
         leaderboard = db.get_leaderboard_data()
         logger.complete(f"Bot completed! {len(leaderboard)} users tracked")
         

@@ -2,7 +2,28 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, ClassVar
+from typing import Optional, ClassVar, List
+
+
+@dataclass
+class Competition:
+    """Represents a competition"""
+    name: str
+    start_date: str
+    end_date: str
+    has_run: bool = False
+    created_at: Optional[datetime] = None
+    
+    SCHEMA: ClassVar[str] = '''
+        CREATE TABLE IF NOT EXISTS competitions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            start_date TEXT NOT NULL,
+            end_date TEXT NOT NULL,
+            has_run BOOLEAN DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    '''
 
 
 @dataclass
@@ -47,18 +68,21 @@ class Submission:
     username: str
     problem_slug: str
     solved: bool
+    competition_id: int
     solved_at: Optional[datetime] = None
     
     SCHEMA: ClassVar[str] = '''
         CREATE TABLE IF NOT EXISTS submissions (
             username TEXT NOT NULL,
             problem_slug TEXT NOT NULL,
+            competition_id INTEGER NOT NULL,
             solved BOOLEAN NOT NULL,
             solved_at TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (username, problem_slug),
+            PRIMARY KEY (username, problem_slug, competition_id),
             FOREIGN KEY (problem_slug) REFERENCES problems(slug),
-            FOREIGN KEY (username) REFERENCES users(username)
+            FOREIGN KEY (username) REFERENCES users(username),
+            FOREIGN KEY (competition_id) REFERENCES competitions(id)
         )
     '''
 

@@ -1,11 +1,12 @@
 competition:
-  name: "Week 2"
+  name: "Week6"
   start_date: "2026-02-07"
   end_date: "2026-02-14"
 
 usernames:
   - "BanditPanda6"
   - "gpena1"
+  - "lee215"
 
 problems:
   - title: "Two Sum"
