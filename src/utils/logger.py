@@ -25,7 +25,8 @@ class CustomFormatter(logging.Formatter):
         'START': '▶',
         'COMPLETE': '☑',
         'INFO': '•',
-        'WARNING': '⚠'
+        'WARNING': '⚠',
+        'BLANK': ''
     }
     
     def format(self, record):
@@ -43,8 +44,14 @@ class CustomFormatter(logging.Formatter):
             color = self.COLORS.get(levelname, self.COLORS['RESET'])
             label = levelname.lower()
         
-        # Format message with underlined colored label and consistent spacing
+        # Format message
         message = record.getMessage()
+        
+        # Special case for blank - no symbol, no label, just message
+        if label == 'blank':
+            return f"  {message}"
+        
+        # Format message with underlined colored label and consistent spacing
         underline = '\033[4m'  # ANSI underline
         # Apply color and underline to text only, then add padding spaces
         label_with_underline = f"{color}{underline}{label}\033[0m"
@@ -90,6 +97,9 @@ def setup_logger(name: str = "leetcode_bot", log_file: str = "logs/bot.log") -> 
     logger.error_msg = lambda msg: log_with_type(logging.ERROR, 'error', msg)
     logger.start = lambda msg: log_with_type(logging.INFO, 'start', msg)
     logger.complete = lambda msg: log_with_type(logging.INFO, 'complete', msg)
+    logger.info = lambda msg: log_with_type(logging.INFO, 'info', msg)
+    logger.warning = lambda msg: log_with_type(logging.WARNING, 'warning', msg)
+    logger.blank = lambda msg='': log_with_type(logging.INFO, 'blank', msg)
     
     return logger
 
