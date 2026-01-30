@@ -1,34 +1,28 @@
-# LeetCode Competition Configuration
-
 competition:
-  name: "My LeetCode Competition"
+  name: "Week 1"
   start_date: "2026-02-01"
-  end_date: "2026-02-28"
+  end_date: "2026-02-07"
 
-# Participants
 usernames:
-  - "user1"
-  - "user2"
-  - "user3"
+  - "BanditPanda6"
+  - "gpena1"
 
-# Problems to track
 problems:
   - title: "Two Sum"
     slug: "two-sum"
     difficulty: "Easy"
-    points: 10
-  
+    points: 1
+    
   - title: "Add Two Numbers"
     slug: "add-two-numbers"
     difficulty: "Medium"
-    points: 20
-  
+    points: 1
+
   - title: "Median of Two Sorted Arrays"
     slug: "median-of-two-sorted-arrays"
     difficulty: "Hard"
-    points: 30
+    points: 1
 
-# Scraping settings
 scraping:
   headless: true
   timeout: 30000  # milliseconds
