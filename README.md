@@ -4,25 +4,10 @@ A bot that tracks LeetCode problem submissions for competition participants and 
 
 ## Features
 
-- 🕷️ Scrapes LeetCode user profiles using Playwright
-- 📊 Tracks which problems each user has solved
-- ⏰ Designed to run via cron (daily updates)
-- 💾 Stores data in SQLite database
-
-## Project Structure
-
-```
-leetcode-bot/
-├── src/                 # Source code
-│   ├── scraper/         # Web scraping logic
-│   ├── database/        # Database operations
-│   └── utils/           # Utilities (config, logging)
-├── logs/                # Application logs
-├── config.yaml          # Competition settings, users, problems
-├── db.sqlite            # SQLite database (created at runtime)
-├── main.py              # Entry point
-└── requirements.txt     # Python dependencies
-```
+- Scrapes LeetCode user profiles using Playwright
+- Tracks which problems each user has solved
+- Designed to run via cron (daily updates)
+- Stores data in SQLite database
 
 ## Setup
 
@@ -47,12 +32,6 @@ Edit `config.yaml`:
 - Add problems to track (with slugs and points)
 - Set competition dates
 
-### 3. Run Manually
-
-```bash
-python main.py
-```
-
 ### 4. Setup Cron (Optional)
 
 Run daily at 8 AM:
@@ -65,20 +44,17 @@ crontab -e
 0 8 * * * cd /path/to/leetcode-bot && /path/to/venv/bin/python main.py >> logs/cron.log 2>&1
 ```
 
-## Output
+## Utility Scripts
 
-The bot generates:
-- `db.sqlite` - SQLite database with all data
-- `logs/bot.log` - Application logs
+Similar to npm scripts, you can use `make` commands to manage the bot:
 
-## Configuration
-
-See `config.yaml` for all available options.
-
-## Development
-
-This is a skeleton structure - implementation needed for:
-- [ ] Playwright scraping logic
-- [ ] Database schema and operations
-- [ ] Error handling and logging
+```bash
+make run          # Run the LeetCode bot
+make leaderboard  # View current leaderboard
+make submissions  # View all submissions
+make info         # Show database statistics
+make reset        # Reset database (clear submissions)
+make install      # Install dependencies
+make help         # Show this help message
+```
 
