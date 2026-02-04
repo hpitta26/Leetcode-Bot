@@ -124,16 +124,14 @@ function Home({ activeTab }) {
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {activeTab === 'weekly' ? (
                     leaderboard.map((user) => (
-                      <tr key={user.username} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <tr key={user.username} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-600 font-medium">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
-                            {user.rank}
-                          </span>
+                          {user.rank}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`/profile/${user.username}`}
-                            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                            className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer font-medium"
                           >
                             {user.username}
                           </Link>
@@ -150,9 +148,7 @@ function Home({ activeTab }) {
                           </td>
                         ))}
                         <td className="px-6 py-4 whitespace-nowrap text-center">
-                          <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                            {user.totalScore}
-                          </span>
+                          {user.totalScore}
                         </td>
                       </tr>
                     ))
